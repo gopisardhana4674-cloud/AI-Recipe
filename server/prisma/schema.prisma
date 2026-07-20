@@ -1,0 +1,96 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id
+  email     String   @unique
+  name      String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  recipes      Recipe[]
+  favorites    Favorite[]
+  savedRecipes SavedRecipe[]
+  mealPlans    MealPlan[]
+  groceryLists GroceryList[]
+}
+
+model Recipe {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  cookTime     String
+  prepTime     String
+  difficulty   String
+  servings     Int
+  cuisine      String
+  dietaryTags  String[]
+  allergens    String[]
+  ingredients  Json     // Array of: { name: string, amount: string, isMissing: boolean }
+  steps        String[] // Array of strings
+  nutrition    Json     // { calories: number, protein: string, carbs: string, fat: string }
+  chefTip      String?
+  imageUrl     String?
+  isGenerated  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  authorId     String
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  favoritedBy  Favorite[]
+  savedBy      SavedRecipe[]
+  mealPlans    MealPlan[]
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  recipeId  String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+}
+
+model SavedRecipe {
+  id        String   @id @default(uuid())
+  userId    String
+  recipeId  String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recipeId])
+}
+
+model MealPlan {
+  id        String   @id @default(uuid())
+  userId    String
+  recipeId  String
+  date      DateTime
+  mealType  String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model GroceryList {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  items     Json     // Array of: { name: string, amount: string, checked: boolean, recipeId?: string }
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

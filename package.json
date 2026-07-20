@@ -1,0 +1,77 @@
+{
+  "name": "agent",
+  "private": true,
+  "version": "0.0.0",
+  "main": "electron/main.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "server": "ts-node-dev --project server/tsconfig.json --respawn --transpile-only server/src/index.ts",
+    "electron:start": "electron .",
+    "dev:all": "node electron/dev.js",
+    "electron:package": "npm run build && electron-packager . \"Edu_AIDesktop\" --platform=win32 --arch=x64 --out=release --overwrite --prune --ignore=\"^/(src|release|server|tsconfig|vite\\.config|\\.git|\\.agents|\\.gemini)\""
+  },
+  "dependencies": {
+    "@clerk/clerk-react": "^5.61.8",
+    "@google/genai": "^2.10.0",
+    "@hookform/resolvers": "^5.4.0",
+    "@prisma/client": "5.18.0",
+    "@tanstack/react-query": "^5.101.2",
+    "@types/cors": "^2.8.19",
+    "axios": "^1.18.1",
+    "cloudinary": "^2.10.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "framer-motion": "^12.42.2",
+    "helmet": "^8.2.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^1.23.0",
+    "marked": "^18.0.5",
+    "multer": "^2.2.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-hook-form": "^7.81.0",
+    "react-router-dom": "^7.18.1",
+    "ts-node-dev": "^2.0.0",
+    "zod": "^4.4.3",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.0.2",
+    "@tailwindcss/vite": "^4.3.2",
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "electron": "^43.1.0",
+    "electron-builder": "^26.15.3",
+    "oxlint": "^1.71.0",
+    "prisma": "5.18.0",
+    "tailwindcss": "^4.3.2",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  },
+  "build": {
+    "appId": "com.eduai.desktop",
+    "productName": "Edu AIDesktop",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  }
+}

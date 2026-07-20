@@ -1,0 +1,31 @@
+{
+  "defaultProvider": "gemini",
+  "failoverOrder": ["gemini", "openai", "anthropic", "openrouter", "ollama"],
+  "providers": {
+    "gemini": {
+      "name": "Gemini",
+      "model": "gemini-3.5-flash",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash"
+    },
+    "openai": {
+      "name": "OpenAI",
+      "model": "gpt-4o-mini",
+      "endpoint": "https://api.openai.com/v1/chat/completions"
+    },
+    "anthropic": {
+      "name": "Anthropic",
+      "model": "claude-3-5-sonnet-20241022",
+      "endpoint": "https://api.anthropic.com/v1/messages"
+    },
+    "openrouter": {
+      "name": "OpenRouter",
+      "model": "google/gemini-2.5-flash",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions"
+    },
+    "ollama": {
+      "name": "Ollama",
+      "model": "qwen3.5",
+      "endpoint": "http://localhost:11434/api/chat"
+    }
+  }
+}
